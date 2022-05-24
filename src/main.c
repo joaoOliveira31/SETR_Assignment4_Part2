@@ -36,6 +36,46 @@
                 /*         you to read the dts file.                                                       */
                 /*         This line would do the trick: #define BOARDLED_PIN DT_PROP(PWM0_NID, ch0_pin)   */       
 
+/** \file main.c
+* \brief The system does a basic processing of an analog signal. It reads the input voltage
+from an analog sensor, digitally filters the signal and outputs it.
+*
+* The system toogles the duty cycle os the pwm signal that is connected to the LED1(output) in function of the concurrent voltage os the 
+*potenciometer(input). The information is shared between the treads using FIFO queues
+* 
+*
+* \author Goncalo Moniz
+* \date 25-5-2022
+* \bug There are no bugs
+*/
+
+/**
+@mainpage ASSIGNMENT 4 PART 2
+@author Goncalo Moniz
+The aim of this assignment is to learn how to implement a set of cooperative real-time tasks in
+Zephyr. Replicating the typical structure of embedded software, a mix of periodic and sporadic
+tasks will be considered.
+
+The system to implement does a basic processing of an analog signal. It reads the input voltage
+from an analog sensor, digitally filters the signal and outputs it.
+
+• Input sensor: Emulated by a 10 kO potentiometer, supplied by the DevKit 3 V supply
+(VDD).
+
+• Digital filter: moving average filter, with a window size of 10 samples. Removes the
+outliers (10% or high deviation from average) and computes the average of the remaining
+samples. 
+
+• Output: pwm signal applied to one of the DevKit leds.
+
+The system shall be structured with at least three tasks, matching the basic processing blocks,
+namely one task for acquiring the sample, one for filtering and the other to output the signal.
+The sampling task is periodic, while the other two are sporadic, being activated when new data is
+available.
+
+
+IPC ---> FIFO Queue
+*/
 
 #include <zephyr.h>
 #include <device.h>
@@ -166,7 +206,17 @@ volatile int dcToggleFlag = 0; /* Flag to signal a BUT1 press */
 
 //----------------MAIN
 
-
+/**brief Main function
+* 
+* Inicialization of FIFOS and Threads
+* 
+* \author Goncalo Moniz
+* \param[in,out] 
+*void
+*void
+* \return void
+* \date 25-5-2022
+*/
 void main(void)
 {
  
@@ -189,6 +239,18 @@ void main(void)
 }
 
 
+/**brief Thread A 
+* 
+* Process the input signal using an adc
+* Input sensor: Emulated by a 10 kO potentiometer, supplied by the DevKit 3 V supply(VDD).
+* 
+* \author Goncalo Moniz
+* \param[in,out] 
+*void
+*void
+* \return void
+* \date 25-5-2022
+*/
 
 void thread_A_code(void *argA , void *argB, void *argC)
  {
@@ -253,7 +315,19 @@ void thread_A_code(void *argA , void *argB, void *argC)
         }    
   }
 
-
+/**brief Thread B 
+* 
+* Process the data from the tread A using a filter 
+* Digital filter: moving average filter, with a window size of 10 samples. Removes the
+* outliers (10% or high deviation from average) and computes the average of the remaining
+* samples.
+* \author Goncalo Moniz
+* \param[in,out] 
+* void
+* void
+* \return void
+* \date 25-5-2022
+*/
 void thread_B_code(void *argA , void *argB, void *argC)
 {
     /* Local variables */
@@ -266,7 +340,7 @@ void thread_B_code(void *argA , void *argB, void *argC)
     while(1) {
         
         data_ab = k_fifo_get(&fifo_ab, K_FOREVER);
-
+        
         data_bc.data = data_ab->data ;
 
         k_fifo_put(&fifo_bc, &data_bc);
@@ -274,7 +348,17 @@ void thread_B_code(void *argA , void *argB, void *argC)
   }
 }
 
-
+/**brief Thread C
+* 
+* Process the data of tread B using pwm
+* Output: pwm signal applied to one of the DevKit leds.
+* \author Goncalo Moniz
+* \param[in,out] 
+*void
+*void
+* \return void
+* \date 25-5-2022
+*/
 void thread_C_code(void *argA , void *argB, void *argC)
 {
     /* Local variables */
