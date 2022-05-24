@@ -49,6 +49,7 @@
 #include <stdio.h>
 #include <sys/printk.h>
 #include <hal/nrf_saadc.h>
+
 #define ADC_NID DT_NODELABEL(adc) 
 #define ADC_RESOLUTION 10
 #define ADC_GAIN ADC_GAIN_1_4
@@ -56,24 +57,13 @@
 #define ADC_ACQUISITION_TIME ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS, 40)
 #define ADC_CHANNEL_ID 1  
 
-/* This is the actual nRF ANx input to use. Note that a channel can be assigned to any ANx. In fact a channel can */
-/*    be assigned to two ANx, when differential reading is set (one ANx for the positive signal and the other one for the negative signal) */  
-/* Note also that the configuration of differnt channels is completely independent (gain, resolution, ref voltage, ...) */
 
 
-
-
-
-//ADC CONFIG
-
-
+//-----------------ADC CONFIG
 
 
 #define ADC_CHANNEL_INPUT NRF_SAADC_INPUT_AIN1 
-
 #define BUFFER_SIZE 1
-
-/* Other defines */
 #define TIMER_INTERVAL_MSEC 50 /* Interval between ADC samples */
 
 /* ADC channel configuration */
@@ -115,49 +105,40 @@ static int adc_sample(void)
 }
 
 
-
-
-
-//THREAD CONFIG
-
+//----------------THREAD CONFIG
 
 
 /* Size of stack area used by each thread (can be thread specific, if necessary)*/
 #define STACK_SIZE 1024
-
 /* Thread scheduling priority */
 #define thread_A_prio 1
 #define thread_B_prio 1
 #define thread_C_prio 1
-
 /* Therad periodicity (in ms)*/
 #define thread_A_period 100
-
-
 /* Create thread stack space */
 K_THREAD_STACK_DEFINE(thread_A_stack, STACK_SIZE);
 K_THREAD_STACK_DEFINE(thread_B_stack, STACK_SIZE);
 K_THREAD_STACK_DEFINE(thread_C_stack, STACK_SIZE);
-  
 /* Create variables for thread data */
 struct k_thread thread_A_data;
 struct k_thread thread_B_data;
 struct k_thread thread_C_data;
-
 /* Create task IDs */
 k_tid_t thread_A_tid;
 k_tid_t thread_B_tid;
 k_tid_t thread_C_tid;
-
 /* Thread code prototypes */
 void thread_A_code(void *, void *, void *);
 void thread_B_code(void *, void *, void *);
 void thread_C_code(void *, void *, void *);
 
-/* Create fifos*/
+
+//------------------FIFOS CONFIG
+
+
 struct k_fifo fifo_ab;
 struct k_fifo fifo_bc;
-
 /* Create fifo data structure and variables */
 struct data_item_t {
     void *fifo_reserved;    /* 1st word reserved for use by FIFO */
@@ -165,7 +146,7 @@ struct data_item_t {
 };
 
 
-//PWM CONFIG
+//---------------PWM CONFIG
 
 
 
@@ -175,7 +156,6 @@ struct data_item_t {
 #define GPIO0_NID DT_NODELABEL(gpio0) 
 #define PWM0_NID DT_NODELABEL(pwm0) 
 
-
 /* Int related declarations */
 static struct gpio_callback but1_cb_data; /* Callback structure */
 
@@ -184,19 +164,48 @@ volatile int dcToggleFlag = 0; /* Flag to signal a BUT1 press */
 
 
 
-
+//----------------MAIN
 
 
 void main(void)
 {
-    int err=0;
-
-    /* Welcome message */
+ 
     /* Create/Init fifos */
     k_fifo_init(&fifo_ab);
     k_fifo_init(&fifo_bc);
-         
-    /* ADC setup: bind and initialize */
+          
+    /* Then create the task */
+    thread_A_tid = k_thread_create(&thread_A_data, thread_A_stack,
+    K_THREAD_STACK_SIZEOF(thread_A_stack), thread_A_code,
+    NULL, NULL, NULL, thread_A_prio, 0, K_NO_WAIT);
+
+    thread_B_tid = k_thread_create(&thread_B_data, thread_B_stack,
+    K_THREAD_STACK_SIZEOF(thread_B_stack), thread_B_code,
+    NULL, NULL, NULL, thread_B_prio, 0, K_NO_WAIT);
+
+    thread_C_tid = k_thread_create(&thread_C_data, thread_C_stack,
+    K_THREAD_STACK_SIZEOF(thread_C_stack), thread_C_code,
+    NULL, NULL, NULL, thread_C_prio, 0, K_NO_WAIT);
+}
+
+
+
+void thread_A_code(void *argA , void *argB, void *argC)
+ {
+    /* Local vars */
+    struct data_item_t data_ab;  
+ 
+    /* Local vars */
+    int64_t fin_time=0, release_time=0;     /* Timing variables to control task periodicity */    
+                        
+    int err=0;
+    /* Task init code */
+    printk("Thread A init (periodic)\n");
+
+    /* Compute next release instant */
+    release_time = k_uptime_get() + thread_A_period;
+    
+  /* ADC setup: bind and initialize */
     adc_dev = device_get_binding(DT_LABEL(ADC_NID));
 	if (!adc_dev) {
         printk("ADC device_get_binding() failed\n");
@@ -208,43 +217,10 @@ void main(void)
     
     /* It is recommended to calibrate the SAADC at least once before use, and whenever the ambient temperature has changed by more than 10 °C */
     NRF_SAADC->TASKS_CALIBRATEOFFSET = 1;
-    
- /* Then create the task */
-        thread_A_tid = k_thread_create(&thread_A_data, thread_A_stack,
-        K_THREAD_STACK_SIZEOF(thread_A_stack), thread_A_code,
-        NULL, NULL, NULL, thread_A_prio, 0, K_NO_WAIT);
 
-        thread_B_tid = k_thread_create(&thread_B_data, thread_B_stack,
-        K_THREAD_STACK_SIZEOF(thread_B_stack), thread_B_code,
-        NULL, NULL, NULL, thread_B_prio, 0, K_NO_WAIT);
-
-        thread_C_tid = k_thread_create(&thread_C_data, thread_C_stack,
-        K_THREAD_STACK_SIZEOF(thread_C_stack), thread_C_code,
-        NULL, NULL, NULL, thread_C_prio, 0, K_NO_WAIT);
-}
-
-
-
-
-/* Thread code implementation */
-void thread_A_code(void *argA , void *argB, void *argC)
- {
- /* Local vars */
-    struct data_item_t data_ab;
-     
- 
-    /* Local vars */
-    int64_t fin_time=0, release_time=0;     /* Timing variables to control task periodicity */    
-                           /* Generic return value variable */
-    int err=0;
-    /* Task init code */
-    printk("Thread A init (periodic)\n");
-
-    /* Compute next release instant */
-    release_time = k_uptime_get() + thread_A_period;
 
     /* Thread loop */
-   /* Main loop */
+    /* Main loop */
     while(true)
     {
         /* Get one sample, checks for errors and prints the values */
@@ -274,8 +250,7 @@ void thread_A_code(void *argA , void *argB, void *argC)
 
         /* Stop timing functions */
         timing_stop();
-        }
-        
+        }    
   }
 
 
@@ -291,14 +266,11 @@ void thread_B_code(void *argA , void *argB, void *argC)
     while(1) {
         
         data_ab = k_fifo_get(&fifo_ab, K_FOREVER);
-        
-        
 
         data_bc.data = data_ab->data ;
 
         k_fifo_put(&fifo_bc, &data_bc);
-           
-               
+                       
   }
 }
 
@@ -333,16 +305,11 @@ void thread_C_code(void *argA , void *argB, void *argC)
         printk("Bind to PWM0 successful\n\r");            
     }
 
-
     printk("Thread C init (sporadic, waits on a semaphore by task A)\n");
     while(1) {
         data_bc = k_fifo_get(&fifo_bc, K_FOREVER);
         duty=(uint16_t)(1000*(data_bc->data)*((float)3/1023))/30;
         printk("PWM DC value set to %u %%\n\n\r",duty);
- 
-        ret = pwm_pin_set_usec(pwm0_dev, BOARDLED_PIN,pwmPeriod_us,(unsigned int)((pwmPeriod_us*duty)/100), PWM_POLARITY_NORMAL);
-           
-     
-            
+        ret = pwm_pin_set_usec(pwm0_dev, BOARDLED_PIN,pwmPeriod_us,(unsigned int)((pwmPeriod_us*duty)/100), PWM_POLARITY_NORMAL);           
   }
 }
