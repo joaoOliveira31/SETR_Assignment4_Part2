@@ -256,7 +256,7 @@ void thread_A_code(void *argA , void *argB, void *argC)
             else {
                 /* ADC is set to use gain of 1/4 and reference VDD/4, so input range is 0...VDD (3 V), with 10 bit resolution */
                 data_ab.data = adc_sample_buffer[0] ;
-                printk("adc reading: raw:%4u / %4u mV: \n\r",adc_sample_buffer[0],(uint16_t)(1000*adc_sample_buffer[0]*((float)3/1023)));
+                printk("adc reading: raw:%4u / %4u mV: \n\r",adc_sample_buffer[0],(uint16_t)(1000*adc_sample_buffer[0]*((float)3/1023)));                
                 k_fifo_put(&fifo_ab, &data_ab);
             }
         }
@@ -294,15 +294,40 @@ void thread_B_code(void *argA , void *argB, void *argC)
     long int nact = 0;
     struct data_item_t *data_ab;
     struct data_item_t data_bc;
+    uint16_t array[10],soma,media;
+    int cnt=1;
     printk("Thread B init (sporadic, waits on a semaphore by task A)\n");
     while(1) {
 
-        data_ab = k_fifo_get(&fifo_ab, K_FOREVER);
+       data_ab = k_fifo_get(&fifo_ab, K_FOREVER);
+        //filtro
+       
+       if(cnt<=10)//encher
+       {
+         array[cnt]=data_ab->data;
+         cnt++;
+       }
+       else
+       {
+           for(int i = 9 ; i > 0 ; i--) //fifo
+           {
+              array[i] = array[i-1];
+           }
+           array[0] = data_ab->data;
 
+           for(int i=0;i<10;i++){//soma
+              soma+=array[i];
+           }
+           printk("Soma = %4u\n",soma);
+           //uint16_t n = (uint16_t) ~ ((unsigned int) cnt);
+           media=soma/10;//media 
+           printk("Media = %4u\n",media); 
+           soma=0;       
+       }
+          
         
-        data_bc.data = data_ab->data ;
-
-        k_fifo_put(&fifo_bc, &data_bc);
+       data_bc.data = media;//data_ab->data;
+       k_fifo_put(&fifo_bc, &data_bc);
 
   }
 }
@@ -351,7 +376,7 @@ void thread_C_code(void *argA , void *argB, void *argC)
     while(1) {
         data_bc = k_fifo_get(&fifo_bc, K_FOREVER);
         duty=(uint16_t)(1000*(data_bc->data)*((float)3/1023))/30;
-        printk("PWM DC value set to %u %%\n\n\r",duty);
+        printk("\rPWM DC value set to %u %%\n\n\r",duty);
         ret = pwm_pin_set_usec(pwm0_dev, BOARDLED_PIN,pwmPeriod_us,(unsigned int)((pwmPeriod_us*duty)/100), PWM_POLARITY_NORMAL);           
   }
 }
