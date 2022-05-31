@@ -33,7 +33,7 @@ struct data_item_t1 {
 #define _ADC_H
 
 /* Therad periodicity (in ms)*/
-#define thread_A_period 100
+#define SAMP_PERIOD_MS 100
 
 
 #define ADC_NID DT_NODELABEL(adc) 
