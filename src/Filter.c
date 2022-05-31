@@ -47,7 +47,7 @@ void thread_B_code(void *argA , void *argB, void *argC)
            }
           
      }
-     if(cnt2==10)media2=0;
+     if(cnt2==10)media2=media;
      else media2 = soma /(10-cnt2);
      data_bc.data = media2;     
      soma=0;
