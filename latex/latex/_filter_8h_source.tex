@@ -1,0 +1,33 @@
+\hypertarget{_filter_8h_source}{}\doxysection{Filter.\+h}
+\mbox{\hyperlink{_filter_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <zephyr.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <device.h>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <drivers/gpio.h>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <drivers/adc.h>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <devicetree.h>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <sys/printk.h>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <sys/\_\_assert.h>}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include <timing/timing.h>}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include <sys/printk.h>}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include <hal/nrf\_saadc.h>}}
+\DoxyCodeLine{26 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/FIFOS CONFIG}}
+\DoxyCodeLine{27 \textcolor{keyword}{extern} \textcolor{keyword}{struct }k\_fifo fifo\_ab;}
+\DoxyCodeLine{28 \textcolor{keyword}{extern} \textcolor{keyword}{struct }k\_fifo fifo\_bc;}
+\DoxyCodeLine{29 \textcolor{comment}{/* Create fifo data structure and variables */}}
+\DoxyCodeLine{30 \textcolor{keyword}{struct }\mbox{\hyperlink{structdata__item__t2}{data\_item\_t2}} \{}
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} *fifo\_reserved;    \textcolor{comment}{/* 1st word reserved for use by FIFO */}}
+\DoxyCodeLine{32     uint16\_t data;          \textcolor{comment}{/* Actual data */}}
+\DoxyCodeLine{33 \};}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#ifndef \_FILTER\_H}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define \_FILTER\_H}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 }
+\DoxyCodeLine{48 \textcolor{keywordtype}{void} \mbox{\hyperlink{_filter_8h_a99cef2c8673e9c73162dd97f0247ca8e}{thread\_B\_code}}(\textcolor{keywordtype}{void} *argA , \textcolor{keywordtype}{void} *argB, \textcolor{keywordtype}{void} *argC);}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

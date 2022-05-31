@@ -1,0 +1,51 @@
+\hypertarget{_a_d_c_8h_source}{}\doxysection{ADC.\+h}
+\mbox{\hyperlink{_a_d_c_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <zephyr.h>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <device.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <drivers/gpio.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <drivers/adc.h>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <devicetree.h>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <sys/printk.h>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <sys/\_\_assert.h>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <timing/timing.h>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include <sys/printk.h>}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <hal/nrf\_saadc.h>}}
+\DoxyCodeLine{24 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/FIFOS CONFIG}}
+\DoxyCodeLine{25 \textcolor{keyword}{extern} \textcolor{keyword}{struct }k\_fifo fifo\_ab;}
+\DoxyCodeLine{26 \textcolor{keyword}{extern} \textcolor{keyword}{struct }k\_fifo fifo\_bc;}
+\DoxyCodeLine{27 \textcolor{comment}{/* Create fifo data structure and variables */}}
+\DoxyCodeLine{28 \textcolor{keyword}{struct }\mbox{\hyperlink{structdata__item__t1}{data\_item\_t1}} \{}
+\DoxyCodeLine{29     \textcolor{keywordtype}{void} *fifo\_reserved;    \textcolor{comment}{/* 1st word reserved for use by FIFO */}}
+\DoxyCodeLine{30     uint16\_t data;          \textcolor{comment}{/* Actual data */}}
+\DoxyCodeLine{31 \};}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#ifndef \_ADC\_H}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#define \_ADC\_H}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{comment}{/* Therad periodicity (in ms)*/}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define thread\_A\_period 100}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#define ADC\_NID DT\_NODELABEL(adc) }}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#define ADC\_RESOLUTION 10}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define ADC\_GAIN ADC\_GAIN\_1\_4}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#define ADC\_REFERENCE ADC\_REF\_VDD\_1\_4}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#define ADC\_ACQUISITION\_TIME ADC\_ACQ\_TIME(ADC\_ACQ\_TIME\_MICROSECONDS, 40)}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#define ADC\_CHANNEL\_ID 1  }}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ADC CONFIG}}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define ADC\_CHANNEL\_INPUT NRF\_SAADC\_INPUT\_AIN1 }}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#define BUFFER\_SIZE 1}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#define TIMER\_INTERVAL\_MSEC 50 }\textcolor{comment}{/* Interval between ADC samples */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 }
+\DoxyCodeLine{64 \textcolor{keywordtype}{void} \mbox{\hyperlink{_a_d_c_8h_a61675a61bbec86901b2fe28f008e881c}{thread\_A\_code}}(\textcolor{keywordtype}{void} *argA , \textcolor{keywordtype}{void} *argB, \textcolor{keywordtype}{void} *argC);}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

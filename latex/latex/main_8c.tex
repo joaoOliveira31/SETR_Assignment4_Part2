@@ -1,0 +1,170 @@
+\hypertarget{main_8c}{}\doxysection{main.\+c File Reference}
+\label{main_8c}\index{main.c@{main.c}}
+
+
+The system does a basic processing of an analog signal. It reads the input voltage from an analog sensor, digitally filters the signal and outputs it.  
+
+
+{\ttfamily \#include $<$zephyr.\+h$>$}\newline
+{\ttfamily \#include $<$device.\+h$>$}\newline
+{\ttfamily \#include $<$drivers/gpio.\+h$>$}\newline
+{\ttfamily \#include $<$drivers/adc.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$devicetree.\+h$>$}\newline
+{\ttfamily \#include $<$sys/printk.\+h$>$}\newline
+{\ttfamily \#include $<$sys/\+\_\+\+\_\+assert.\+h$>$}\newline
+{\ttfamily \#include $<$timing/timing.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$hal/nrf\+\_\+saadc.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}ADC.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Filter.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}PWM.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{main_8c_a6423a880df59733d2d9b509c7718d3a9}\label{main_8c_a6423a880df59733d2d9b509c7718d3a9}} 
+\#define {\bfseries STACK\+\_\+\+SIZE}~1024
+\item 
+\mbox{\Hypertarget{main_8c_a5936222e9802dbe8ceb1e99bd667466a}\label{main_8c_a5936222e9802dbe8ceb1e99bd667466a}} 
+\#define {\bfseries thread\+\_\+\+A\+\_\+prio}~1
+\item 
+\mbox{\Hypertarget{main_8c_aa9928aa4491a20c74a19c5904ba9530a}\label{main_8c_aa9928aa4491a20c74a19c5904ba9530a}} 
+\#define {\bfseries thread\+\_\+\+B\+\_\+prio}~1
+\item 
+\mbox{\Hypertarget{main_8c_a1bd72aae8d0dd6e887547a1d5e0a8902}\label{main_8c_a1bd72aae8d0dd6e887547a1d5e0a8902}} 
+\#define {\bfseries thread\+\_\+\+C\+\_\+prio}~1
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{main_8c_aa25f5f9092ccf13998f3cb9e9e1d10a6}\label{main_8c_aa25f5f9092ccf13998f3cb9e9e1d10a6}} 
+{\bfseries K\+\_\+\+THREAD\+\_\+\+STACK\+\_\+\+DEFINE} (thread\+\_\+\+A\+\_\+stack, STACK\+\_\+\+SIZE)
+\item 
+\mbox{\Hypertarget{main_8c_a8318aa1ed5939244957a68387085ddec}\label{main_8c_a8318aa1ed5939244957a68387085ddec}} 
+{\bfseries K\+\_\+\+THREAD\+\_\+\+STACK\+\_\+\+DEFINE} (thread\+\_\+\+B\+\_\+stack, STACK\+\_\+\+SIZE)
+\item 
+\mbox{\Hypertarget{main_8c_a331fd55d9b95c3e662a4148fbc522271}\label{main_8c_a331fd55d9b95c3e662a4148fbc522271}} 
+{\bfseries K\+\_\+\+THREAD\+\_\+\+STACK\+\_\+\+DEFINE} (thread\+\_\+\+C\+\_\+stack, STACK\+\_\+\+SIZE)
+\item 
+void \mbox{\hyperlink{main_8c_a2bae0ae425b2577868ad7c1482190439}{thread\+\_\+\+A\+\_\+code}} (void $\ast$, void $\ast$, void $\ast$)
+\item 
+void \mbox{\hyperlink{main_8c_a0bc8db7d99935e559b1164cf2e84e822}{thread\+\_\+\+B\+\_\+code}} (void $\ast$, void $\ast$, void $\ast$)
+\item 
+\mbox{\Hypertarget{main_8c_a05a8f93095731e110abe668f996166c9}\label{main_8c_a05a8f93095731e110abe668f996166c9}} 
+void {\bfseries thread\+\_\+\+C\+\_\+code} (void $\ast$, void $\ast$, void $\ast$)
+\item 
+void \mbox{\hyperlink{main_8c_a6288eba0f8e8ad3ab1544ad731eb7667}{main}} (void)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{main_8c_a6d4412666e45fbd3d7bb2e537e3e4921}\label{main_8c_a6d4412666e45fbd3d7bb2e537e3e4921}} 
+struct k\+\_\+thread {\bfseries thread\+\_\+\+A\+\_\+data}
+\item 
+\mbox{\Hypertarget{main_8c_ad832c1a3de4a77b89216efc38eddcb72}\label{main_8c_ad832c1a3de4a77b89216efc38eddcb72}} 
+struct k\+\_\+thread {\bfseries thread\+\_\+\+B\+\_\+data}
+\item 
+\mbox{\Hypertarget{main_8c_a9723f8aa3cfd56015ee57bc31879f8ec}\label{main_8c_a9723f8aa3cfd56015ee57bc31879f8ec}} 
+struct k\+\_\+thread {\bfseries thread\+\_\+\+C\+\_\+data}
+\item 
+\mbox{\Hypertarget{main_8c_aaac68d6bd12397c115c8f5fb8b8dae16}\label{main_8c_aaac68d6bd12397c115c8f5fb8b8dae16}} 
+k\+\_\+tid\+\_\+t {\bfseries thread\+\_\+\+A\+\_\+tid}
+\item 
+\mbox{\Hypertarget{main_8c_af2bd9deb85bd5ac0cdf3a0b077411289}\label{main_8c_af2bd9deb85bd5ac0cdf3a0b077411289}} 
+k\+\_\+tid\+\_\+t {\bfseries thread\+\_\+\+B\+\_\+tid}
+\item 
+\mbox{\Hypertarget{main_8c_a3e9a231be3f7d1a28871ddfdf5ca8fe3}\label{main_8c_a3e9a231be3f7d1a28871ddfdf5ca8fe3}} 
+k\+\_\+tid\+\_\+t {\bfseries thread\+\_\+\+C\+\_\+tid}
+\item 
+\mbox{\Hypertarget{main_8c_a765c9457bf0544d4ee26a355ff1116e3}\label{main_8c_a765c9457bf0544d4ee26a355ff1116e3}} 
+struct k\+\_\+fifo {\bfseries fifo\+\_\+ab}
+\item 
+\mbox{\Hypertarget{main_8c_ae8984bc4afe8a3abec87f1dc0520292b}\label{main_8c_ae8984bc4afe8a3abec87f1dc0520292b}} 
+struct k\+\_\+fifo {\bfseries fifo\+\_\+bc}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The system does a basic processing of an analog signal. It reads the input voltage from an analog sensor, digitally filters the signal and outputs it. 
+
+The system toogles the duty cycle os the pwm signal that is connected to the LED1(output) in function of the concurrent voltage os the potenciometer(input). The information is shared between the treads using FIFOS
+
+\begin{DoxyAuthor}{Author}
+Goncalo Moniz, Joao Oliveira, Diogo Leao 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+31-\/5-\/2022 
+\end{DoxyDate}
+\begin{DoxyRefDesc}{Bug}
+\item[\mbox{\hyperlink{bug__bug000003}{Bug}}]There are no bugs \end{DoxyRefDesc}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8c_a6288eba0f8e8ad3ab1544ad731eb7667}\label{main_8c_a6288eba0f8e8ad3ab1544ad731eb7667}} 
+\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily void main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+brief Main function
+
+Inicialization of Semaphores and Threads
+
+\begin{DoxyAuthor}{Author}
+Goncalo Moniz, Joao Oliveira, Diogo Leao 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em void} & void \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\begin{DoxyDate}{Date}
+31-\/5-\/2022 
+\end{DoxyDate}
+\mbox{\Hypertarget{main_8c_a2bae0ae425b2577868ad7c1482190439}\label{main_8c_a2bae0ae425b2577868ad7c1482190439}} 
+\index{main.c@{main.c}!thread\_A\_code@{thread\_A\_code}}
+\index{thread\_A\_code@{thread\_A\_code}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{thread\_A\_code()}{thread\_A\_code()}}
+{\footnotesize\ttfamily void thread\+\_\+\+A\+\_\+code (\begin{DoxyParamCaption}\item[{void $\ast$}]{argA,  }\item[{void $\ast$}]{argB,  }\item[{void $\ast$}]{argC }\end{DoxyParamCaption})}
+
+Thread A
+
+Thread for the ADC \begin{DoxyAuthor}{Author}
+Goncalo Moniz, Joao Oliveira, Diogo Leao 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em void} & void \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\begin{DoxyDate}{Date}
+31-\/5-\/2022 
+\end{DoxyDate}
+\mbox{\Hypertarget{main_8c_a0bc8db7d99935e559b1164cf2e84e822}\label{main_8c_a0bc8db7d99935e559b1164cf2e84e822}} 
+\index{main.c@{main.c}!thread\_B\_code@{thread\_B\_code}}
+\index{thread\_B\_code@{thread\_B\_code}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{thread\_B\_code()}{thread\_B\_code()}}
+{\footnotesize\ttfamily void thread\+\_\+\+B\+\_\+code (\begin{DoxyParamCaption}\item[{void $\ast$}]{argA,  }\item[{void $\ast$}]{argB,  }\item[{void $\ast$}]{argC }\end{DoxyParamCaption})}
+
+Thread B
+
+Thread for the Filter \begin{DoxyAuthor}{Author}
+Goncalo Moniz, Joao Oliveira, Diogo Leao 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em void} & void \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\begin{DoxyDate}{Date}
+31-\/5-\/2022 
+\end{DoxyDate}

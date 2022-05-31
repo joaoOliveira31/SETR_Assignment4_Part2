@@ -1,0 +1,90 @@
+\hypertarget{_p_w_m_8h}{}\doxysection{PWM.\+h File Reference}
+\label{_p_w_m_8h}\index{PWM.h@{PWM.h}}
+
+
+PWM Output.  
+
+
+{\ttfamily \#include $<$zephyr.\+h$>$}\newline
+{\ttfamily \#include $<$device.\+h$>$}\newline
+{\ttfamily \#include $<$drivers/gpio.\+h$>$}\newline
+{\ttfamily \#include $<$drivers/adc.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$devicetree.\+h$>$}\newline
+{\ttfamily \#include $<$sys/printk.\+h$>$}\newline
+{\ttfamily \#include $<$sys/\+\_\+\+\_\+assert.\+h$>$}\newline
+{\ttfamily \#include $<$timing/timing.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$hal/nrf\+\_\+saadc.\+h$>$}\newline
+{\ttfamily \#include $<$drivers/pwm.\+h$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structdata__item__t3}{data\+\_\+item\+\_\+t3}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_p_w_m_8h_a66e62e873d067860b696a1f47b60916a}\label{_p_w_m_8h_a66e62e873d067860b696a1f47b60916a}} 
+\#define {\bfseries BOARDLED\+\_\+\+PIN}~DT\+\_\+\+PROP(PWM0\+\_\+\+NID, ch0\+\_\+pin)
+\item 
+\mbox{\Hypertarget{_p_w_m_8h_a4c0e6f34369bef1deb3a9efae6ac14fb}\label{_p_w_m_8h_a4c0e6f34369bef1deb3a9efae6ac14fb}} 
+\#define {\bfseries GPIO0\+\_\+\+NID}~DT\+\_\+\+NODELABEL(gpio0)
+\item 
+\mbox{\Hypertarget{_p_w_m_8h_ab48b150a8660d0152dfde25b42c1755f}\label{_p_w_m_8h_ab48b150a8660d0152dfde25b42c1755f}} 
+\#define {\bfseries PWM0\+\_\+\+NID}~DT\+\_\+\+NODELABEL(pwm0)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_p_w_m_8h_a6eec62f04743b40b6d744ecd2f31cdd2}{thread\+\_\+\+C\+\_\+code}} (void $\ast$argA, void $\ast$argB, void $\ast$argC)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_p_w_m_8h_a765c9457bf0544d4ee26a355ff1116e3}\label{_p_w_m_8h_a765c9457bf0544d4ee26a355ff1116e3}} 
+struct k\+\_\+fifo {\bfseries fifo\+\_\+ab}
+\item 
+\mbox{\Hypertarget{_p_w_m_8h_ae8984bc4afe8a3abec87f1dc0520292b}\label{_p_w_m_8h_ae8984bc4afe8a3abec87f1dc0520292b}} 
+struct k\+\_\+fifo {\bfseries fifo\+\_\+bc}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+PWM Output. 
+
+Process the data of tread B using pwm Output\+: pwm signal applied to one of the Dev\+Kit leds.
+
+\begin{DoxyAuthor}{Author}
+Goncalo Moniz, Joao Oliveira, Diogo Leao 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+31-\/5-\/2022 
+\end{DoxyDate}
+\begin{DoxyRefDesc}{Bug}
+\item[\mbox{\hyperlink{bug__bug000004}{Bug}}]There are no bugs \end{DoxyRefDesc}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_p_w_m_8h_a6eec62f04743b40b6d744ecd2f31cdd2}\label{_p_w_m_8h_a6eec62f04743b40b6d744ecd2f31cdd2}} 
+\index{PWM.h@{PWM.h}!thread\_C\_code@{thread\_C\_code}}
+\index{thread\_C\_code@{thread\_C\_code}!PWM.h@{PWM.h}}
+\doxysubsubsection{\texorpdfstring{thread\_C\_code()}{thread\_C\_code()}}
+{\footnotesize\ttfamily void thread\+\_\+\+C\+\_\+code (\begin{DoxyParamCaption}\item[{void $\ast$}]{argA,  }\item[{void $\ast$}]{argB,  }\item[{void $\ast$}]{argC }\end{DoxyParamCaption})}
+
+Thread C
+
+Thread for the PWM \begin{DoxyAuthor}{Author}
+Goncalo Moniz, Joao Oliveira, Diogo Leao 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em void} & void \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\begin{DoxyDate}{Date}
+31-\/5-\/2022 
+\end{DoxyDate}

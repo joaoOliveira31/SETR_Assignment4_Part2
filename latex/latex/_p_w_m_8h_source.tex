@@ -1,0 +1,42 @@
+\hypertarget{_p_w_m_8h_source}{}\doxysection{PWM.\+h}
+\mbox{\hyperlink{_p_w_m_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <zephyr.h>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <device.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <drivers/gpio.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <drivers/adc.h>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <devicetree.h>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <sys/printk.h>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <sys/\_\_assert.h>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <timing/timing.h>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include <sys/printk.h>}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <hal/nrf\_saadc.h>}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#ifndef \_PWM\_H}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define \_PWM\_H}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/PWM CONFIG}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#define BOARDLED\_PIN DT\_PROP(PWM0\_NID, ch0\_pin)}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include <drivers/pwm.h>}}
+\DoxyCodeLine{32 \textcolor{comment}{/* Refer to dts file */}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#define GPIO0\_NID DT\_NODELABEL(gpio0) }}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#define PWM0\_NID DT\_NODELABEL(pwm0) }}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/FIFOS CONFIG}}
+\DoxyCodeLine{38 \textcolor{keyword}{extern} \textcolor{keyword}{struct }k\_fifo fifo\_ab;}
+\DoxyCodeLine{39 \textcolor{keyword}{extern} \textcolor{keyword}{struct }k\_fifo fifo\_bc;}
+\DoxyCodeLine{40 \textcolor{comment}{/* Create fifo data structure and variables */}}
+\DoxyCodeLine{41 \textcolor{keyword}{struct }\mbox{\hyperlink{structdata__item__t3}{data\_item\_t3}} \{}
+\DoxyCodeLine{42     \textcolor{keywordtype}{void} *fifo\_reserved;    \textcolor{comment}{/* 1st word reserved for use by FIFO */}}
+\DoxyCodeLine{43     uint16\_t data;          \textcolor{comment}{/* Actual data */}}
+\DoxyCodeLine{44 \};}
+\DoxyCodeLine{55 \textcolor{keywordtype}{void} \mbox{\hyperlink{_p_w_m_8h_a6eec62f04743b40b6d744ecd2f31cdd2}{thread\_C\_code}}(\textcolor{keywordtype}{void} *argA , \textcolor{keywordtype}{void} *argB, \textcolor{keywordtype}{void} *argC);}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

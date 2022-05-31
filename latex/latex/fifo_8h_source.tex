@@ -1,0 +1,30 @@
+\hypertarget{fifo_8h_source}{}\doxysection{fifo.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#include <zephyr.h>}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#include <device.h>}}
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include <drivers/gpio.h>}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <drivers/adc.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <devicetree.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <sys/printk.h>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <sys/\_\_assert.h>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <timing/timing.h>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <sys/printk.h>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <hal/nrf\_saadc.h>}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#ifndef \_FIFO\_H}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#define \_FIFO\_H}}
+\DoxyCodeLine{16 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/FIFOS CONFIG}}
+\DoxyCodeLine{17 \textcolor{keyword}{struct }k\_fifo fifo\_ab;}
+\DoxyCodeLine{18 \textcolor{keyword}{struct }k\_fifo fifo\_bc;}
+\DoxyCodeLine{19 \textcolor{comment}{/* Create fifo data structure and variables */}}
+\DoxyCodeLine{20 \textcolor{keyword}{struct }\mbox{\hyperlink{structdata__item__t}{data\_item\_t}} \{}
+\DoxyCodeLine{21     \textcolor{keywordtype}{void} *fifo\_reserved;    \textcolor{comment}{/* 1st word reserved for use by FIFO */}}
+\DoxyCodeLine{22     uint16\_t data;          \textcolor{comment}{/* Actual data */}}
+\DoxyCodeLine{23 \};}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
