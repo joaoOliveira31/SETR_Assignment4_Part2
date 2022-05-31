@@ -50,7 +50,7 @@ void thread_A_code(void *argA , void *argB, void *argC)
     printk("Thread A init (periodic)\n");
 
     /* Compute next release instant */
-    release_time = k_uptime_get() + thread_A_period;
+    release_time = k_uptime_get() + SAMP_PERIOD_MS;
     
   /* ADC setup: bind and initialize */
     adc_dev = device_get_binding(DT_LABEL(ADC_NID));
@@ -94,7 +94,7 @@ void thread_A_code(void *argA , void *argB, void *argC)
         if( fin_time < release_time) 
         {
             k_msleep(release_time - fin_time);
-            release_time += thread_A_period;
+            release_time += SAMP_PERIOD_MS;
         }
 
         /* Stop timing functions */
